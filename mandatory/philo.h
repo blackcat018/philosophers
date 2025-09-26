@@ -55,6 +55,12 @@ int					init_mutex(t_data *data);
 int					init_data(t_data *data, char **av, int ac);
 void				data_cleanup(t_data *data);
 
+
+		//--------------- actions --------------- //
+
+void  get_time_in_ms(t_philo *philo);
+
+
 		//-------- philosophers routien --------- //
 
 void				*philo_routine(void *arg); /* needs to be done */
