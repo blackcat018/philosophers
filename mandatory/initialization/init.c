@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:57 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/25 17:10:58 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:32:02 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int init_mutex(t_data *data)
 	return(1);
 }
 
-int init_data(t_data *data, char **av, int ac)
+int init_data(t_data *data, char **av)
 {
     data->philo_num = ft_atoi(av[1]);
     data->time_to_die = ft_atoi(av[2]);

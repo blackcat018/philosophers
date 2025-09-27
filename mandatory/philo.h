@@ -48,18 +48,32 @@ typedef struct s_data
 	pthread_mutex_t	end_mutex;
 }					t_data;
 
+void precise_sleep(long duration, t_data *data);
+int check_input(char **av);
+int simulation_ended(t_data *data);
+void *monitor_routine(void *arg);
+void *philo_routine(void *arg);
+
 		//--------- data initialization --------- //
 
 void				init_philos(t_data *data);
 int					init_mutex(t_data *data);
-int					init_data(t_data *data, char **av, int ac);
+int					init_data(t_data *data, char **av);
 void				data_cleanup(t_data *data);
 
 
 		//--------------- actions --------------- //
 
-void  get_time_in_ms(t_philo *philo);
-
+long  get_time_in_ms(t_data *data);
+int print_output(t_philo *philo, char *str);
+void philo_think(t_philo *philo);
+int take_fork_even(t_philo *philo);
+int take_fork_odd(t_philo *philo);
+void one_philo_case(t_philo *philo);
+int philo_take_forks(t_philo *philo);
+void philo_eat(t_philo *philo);
+void philo_put_forks(t_philo *philo);
+void philo_sleep(t_philo *philo, long time);
 
 		//-------- philosophers routien --------- //
 
