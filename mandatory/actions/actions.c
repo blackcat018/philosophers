@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/27 02:25:44 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 07:04:51 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,6 @@ void philo_sleep(t_philo *philo, long time)
 
 void philo_eat(t_philo *philo)
 {
-    if (philo_take_forks(philo) == -1)
-        return;
-
     pthread_mutex_lock(&philo->data->meal_mutex);
     philo->last_meal_time = get_time_in_ms(philo->data);
     pthread_mutex_unlock(&philo->data->meal_mutex);
@@ -96,11 +93,10 @@ void philo_eat(t_philo *philo)
         return;
     }
 
-    precise_sleep(philo->data->time_to_eat, philo->data);
-
     pthread_mutex_lock(&philo->data->meal_mutex);
     philo->meals_eaten++;
     pthread_mutex_unlock(&philo->data->meal_mutex);
+    precise_sleep(philo->data->time_to_eat, philo->data);
 
     philo_put_forks(philo);
 }

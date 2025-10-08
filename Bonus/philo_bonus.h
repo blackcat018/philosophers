@@ -65,7 +65,7 @@ void forking(t_philo *philo);
 
 		//-------- philosophers routien --------- //
 
-void				philo_routine(void *arg); /* needs to be done */
+void philo_routine(t_philo *philo); /* needs to be done */
 void wait_forking(t_philo *philo, long time);
 void cleanup(t_philo *philo);
 

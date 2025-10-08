@@ -4,7 +4,7 @@ BONUS_NAME = philo_bonus
 
 # Compiler flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 #LDFLAGS = -lreadline -lncurses
 
 # Mandatory source files

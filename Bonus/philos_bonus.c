@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:15:14 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 03:45:31 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 04:10:27 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,44 +15,64 @@
 void *monitoring(void *arg)
 {
     t_philo *philo;
-    long diff;
+    long current_time;
+    long last_meal;
 
     philo = (t_philo*)arg;
     while(1)
     {
         usleep(1000);
         sem_wait(philo->data->sem_meal);
-        diff = get_time_in_ms(philo->data) - philo->last_meal_time;
-        if(diff >= philo->data->time_to_die)
+        current_time = get_time_in_ms(philo->data);
+        last_meal = philo->last_meal_time;
+        sem_post(philo->data->sem_meal);
+        
+        if(current_time - last_meal >= philo->data->time_to_die)
         {
-            sem_post(philo->data->sem_meal);
             sem_wait(philo->data->sem_print);
-            ft_putnbr_fd(get_time_in_ms(philo->data) - philo->data->start_time, 1);
-            ft_putstr_fd(" ", 1);
-            ft_putnbr_fd(philo->id + 1, 1);
-            ft_putstr_fd(" died\n", 1);
+            printf("%ld %d died\n", current_time - philo->data->start_time, philo->id + 1);
             exit(1);
         }
-        sem_post(philo->data->sem_meal);
     }
     return(NULL);
 }
 
-void philo_routine(void *arg)
+void precise_usleep(t_data *data,long microseconds)
 {
-    t_philo *philo;
+    long start_time = get_time_in_ms(data) * 1000;
+    long current_time;
+    
+    while (1)
+    {
+        current_time = get_time_in_ms(data) * 1000;
+        if (current_time - start_time >= microseconds)
+            break;
+        usleep(100);
+    }
+}
 
-    philo = (t_philo*)arg;
-    pthread_create(&philo->die, NULL, monitoring, philo);
-    pthread_detach(philo->die);
-    if((philo->id % 2) == 0)
-        usleep(philo->data->time_to_sleep * 1000);
+void philo_routine(t_philo *philo)
+{
+    pthread_t monitor_thread;
+
+    pthread_create(&monitor_thread, NULL, monitoring, philo);
+    pthread_detach(monitor_thread);
+    
+    // Small staggered start to avoid fork contention
+    if (philo->id % 2 == 0)
+        usleep(1000);
+    
     while(1)
     {
         philo_eat(philo);
+        
+        // Check if philosopher reached meal count
+        if (philo->data->must_eat_count != -1 && 
+            philo->meals_eaten >= philo->data->must_eat_count)
+            exit(0);
+            
         print_output(philo, "is sleeping");
-        usleep(philo->data->time_to_sleep * 1000);
+        precise_usleep(philo->data, philo->data->time_to_sleep * 1000);
         print_output(philo, "is thinking");
     }
-    return;
 }

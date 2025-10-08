@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:15:14 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 03:45:18 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 07:03:49 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void *monitor_routine(void *arg)
     {
         usleep(1000);
         i = 0;
-        while (i < data->philo_num && !simulation_ended(data))
+        while (i < data->philo_num)
         {
             pthread_mutex_lock(&data->meal_mutex);
             long last_meal = data->philos[i].last_meal_time;
@@ -76,26 +76,32 @@ void *monitor_routine(void *arg)
 void *philo_routine(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
-    if (philo->id % 2 == 0)
-	{
-        while (!simulation_ended(philo->data))
-		{
-            philo_eat(philo);
-            philo_sleep(philo, philo->data->time_to_sleep);
-            philo_think(philo);
-        }
-    } else
-	{
-        while (!simulation_ended(philo->data))
-		{
-            philo_sleep(philo, philo->data->time_to_sleep);
-			philo_think(philo);
-            philo_eat(philo);
-            
-        }
+
+    // Initialize last meal time at start for all philosophers
+    pthread_mutex_lock(&philo->data->meal_mutex);
+    philo->last_meal_time = get_time_in_ms(philo->data);
+    pthread_mutex_unlock(&philo->data->meal_mutex);
+
+    // Stagger start slightly for odd philosophers to avoid lock conflicts
+    if (philo->id % 2)
+        usleep(100);
+
+    while (!simulation_ended(philo->data))
+    {
+        if (philo_take_forks(philo))
+            break;
+        pthread_mutex_lock(&philo->data->meal_mutex);
+        philo->last_meal_time = get_time_in_ms(philo->data);
+        pthread_mutex_unlock(&philo->data->meal_mutex);
+
+        philo_eat(philo);
+        philo_sleep(philo, philo->data->time_to_sleep);
+        philo_think(philo);
     }
+
     return NULL;
 }
+
 
 void philo_threading(t_philo *philo, t_data *data)
 {

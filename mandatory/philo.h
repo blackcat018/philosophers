@@ -46,6 +46,8 @@ typedef struct s_data
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	end_mutex;
+
+	struct timeval start_time_tv;
 }					t_data;
 
 void precise_sleep(long duration, t_data *data);

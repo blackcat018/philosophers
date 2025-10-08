@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:57 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/26 17:32:02 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 07:20:11 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void init_philos(t_data *data)
     while(i < data->philo_num)
     {
         data->philos[i].id = i;
-        data->philos[i].last_meal_time = 0;
+        data->philos[i].last_meal_time = data->start_time;
         data->philos[i].meals_eaten = 0;
         data->philos[i].data = data;
         data->philos[i].left_fork = &data->forks[i];
@@ -64,7 +64,7 @@ int init_data(t_data *data, char **av)
         data->time_to_eat <= 0 || data->time_to_sleep <= 0 || 
         (data->must_eat_count <= 0 && data->must_eat_count != -1))
         return -1;
-    data->start_time = 0;
+    data->start_time = get_time_in_ms(data);
     data->simulation_end = 0;
     data->forks = malloc(sizeof(t_fork) * data->philo_num);
     data->philos = malloc(sizeof(t_philo) * data->philo_num);
@@ -74,7 +74,7 @@ int init_data(t_data *data, char **av)
         return(-1);
     
     init_philos(data);
-    
+    gettimeofday(&data->start_time_tv, NULL);
     return(1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:59 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/07 23:42:43 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 03:48:24 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int check_if_number(char **av)
 		{
 			if (ft_isdigit(av[i][j]) != 1)
 			{
-				if(av[i][j] == '+' && av[i][j - 1] != '+' && av[i][j+1])
+				if(av[i][j] == '+' && 
+					av[i][j - 1] != '+' && av[i][j+1])
 				{
 					j++;
 					continue;

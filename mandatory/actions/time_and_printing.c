@@ -6,17 +6,18 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/26 21:21:43 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 07:20:18 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-long  get_time_in_ms(t_data *data)
+long get_time_in_ms(t_data *data)
 {
-	struct timeval time;
-	gettimeofday(&time,NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000) - data->start_time);
+    struct timeval now;
+    gettimeofday(&now, NULL);
+    return ((now.tv_sec - data->start_time_tv.tv_sec) * 1000
+            + (now.tv_usec - data->start_time_tv.tv_usec) / 1000);
 }
 
 int print_output(t_philo *philo, char *str)
