@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 01:05:12 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 03:46:34 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,15 @@ long get_time_in_ms(t_data *data)
 
 void print_output(t_philo *philo, char *str)
 {
-    long relative_time;
-    
     sem_wait(philo->data->sem_print);
-    relative_time = get_time_in_ms(philo->data) - philo->data->start_time;
-    printf("%ld %d %s\n", relative_time, philo->id + 1, str);
+    ft_putnbr_fd(get_time_in_ms(philo->data) - philo->data->start_time,1);
+    ft_putstr_fd(" ",1);
+    ft_putnbr_fd(philo->id + 1,1);
+    ft_putstr_fd(" ",1);
+    ft_putstr_fd(str,1);
+    ft_putstr_fd("\n",1);
     sem_post(philo->data->sem_print);
 }
-
 
 void philo_eat(t_philo *philo)
 {
@@ -51,7 +52,6 @@ void cleanup(t_philo *philo)
 	sem_close(philo->data->sem_print);
 	sem_close(philo->data->sem_forks);
 	sem_close(philo->data->sem_meal);
-
 	sem_unlink("/sem_print");
 	sem_unlink("/sem_forks");
 	sem_unlink("/sem_meal");
@@ -83,7 +83,6 @@ void forking(t_philo *philo)
 			perror("fork");
 			exit(1);
 		}
-			
 	}
 }
 void wait_forking(t_philo *philo, long time)

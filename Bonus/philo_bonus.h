@@ -52,12 +52,13 @@ void *monitoring(void *arg);
 
 		//--------- data initialization --------- //
 
-void				init_philos(t_data *data);
+void init_philos(t_data *data);
 int					init_data(t_data *data, char **av);
+
 
 		//--------------- actions --------------- //
 
-long  get_time_in_ms(t_data *data);
+long get_time_in_ms(t_data *data);
 void print_output(t_philo *philo, char *str);
 void philo_eat(t_philo *philo);
 void forking(t_philo *philo);
