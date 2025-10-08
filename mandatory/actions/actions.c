@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 07:04:51 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 22:36:02 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void philo_think(t_philo *philo)
 {
-	if(print_output(philo,"is thinking") == 1)
-		return;
-	usleep(50);	
+    if(print_output(philo,"is thinking") == 1)
+        return;
+    usleep(500);
 }
 
 int philo_take_forks(t_philo *philo)
@@ -33,17 +33,8 @@ int philo_take_forks(t_philo *philo)
 		one_philo_case(philo);
 		return(1);
 	}
-	if(((philo->id + 1) % 2) == 0)
-	{
-		usleep(200);
-		if(take_fork_even(philo) == -1)
+	if(take_fork_even(philo) == -1)
 			return(1);
-	}
-	else
-	{
-		if(take_fork_odd(philo) == -1)
-			return(1);
-	}
 	return(0);
 }
 void philo_put_forks(t_philo *philo)
@@ -59,7 +50,6 @@ void precise_sleep(long duration, t_data *data)
 	{
         if(data->simulation_end)
 			return;
-        usleep(500);
     }
 }
 void philo_sleep(t_philo *philo, long time)
@@ -67,7 +57,6 @@ void philo_sleep(t_philo *philo, long time)
     long start = get_time_in_ms(philo->data);
     if(print_output(philo, "is sleeping") == 1)
         return;
-
     while(get_time_in_ms(philo->data) - start < time)
     {
         pthread_mutex_lock(&philo->data->end_mutex);
@@ -77,7 +66,6 @@ void philo_sleep(t_philo *philo, long time)
             return;
         }
         pthread_mutex_unlock(&philo->data->end_mutex);
-        usleep(500);
     }
 }
 
@@ -86,18 +74,15 @@ void philo_eat(t_philo *philo)
     pthread_mutex_lock(&philo->data->meal_mutex);
     philo->last_meal_time = get_time_in_ms(philo->data);
     pthread_mutex_unlock(&philo->data->meal_mutex);
-
     if (print_output(philo, "is eating") == 1)
     {
         philo_put_forks(philo);
         return;
     }
-
     pthread_mutex_lock(&philo->data->meal_mutex);
     philo->meals_eaten++;
     pthread_mutex_unlock(&philo->data->meal_mutex);
     precise_sleep(philo->data->time_to_eat, philo->data);
-
     philo_put_forks(philo);
 }
 

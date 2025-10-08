@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:15:14 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 07:03:49 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 22:53:56 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,28 +77,19 @@ void *philo_routine(void *arg)
 {
     t_philo *philo = (t_philo *)arg;
 
-    // Initialize last meal time at start for all philosophers
     pthread_mutex_lock(&philo->data->meal_mutex);
     philo->last_meal_time = get_time_in_ms(philo->data);
     pthread_mutex_unlock(&philo->data->meal_mutex);
-
-    // Stagger start slightly for odd philosophers to avoid lock conflicts
-    if (philo->id % 2)
-        usleep(100);
-
+    if (philo->id % 2 == 0)
+        usleep(1000);
     while (!simulation_ended(philo->data))
     {
         if (philo_take_forks(philo))
             break;
-        pthread_mutex_lock(&philo->data->meal_mutex);
-        philo->last_meal_time = get_time_in_ms(philo->data);
-        pthread_mutex_unlock(&philo->data->meal_mutex);
-
-        philo_eat(philo);
+		philo_eat(philo);
         philo_sleep(philo, philo->data->time_to_sleep);
         philo_think(philo);
     }
-
     return NULL;
 }
 

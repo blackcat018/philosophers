@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/26 21:48:10 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:29:56 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int take_fork_even(t_philo *philo)
     if(pthread_mutex_lock(&philo->left_fork->mutex) != 0)
         return -1;
     
-    if(print_output(philo,"has taken fork") == 1)  // Add this
+    if(print_output(philo,"has taken fork") == 1)
     {
         pthread_mutex_unlock(&philo->left_fork->mutex);
         return -1;
@@ -29,7 +29,7 @@ int take_fork_even(t_philo *philo)
         return -1;
     }
     
-    if(print_output(philo,"has taken fork") == 1)  // Keep this
+    if(print_output(philo,"has taken fork") == 1)
     {
         pthread_mutex_unlock(&philo->left_fork->mutex);
         pthread_mutex_unlock(&philo->right_fork->mutex);
