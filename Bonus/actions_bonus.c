@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 03:46:34 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/09 00:24:50 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void philo_eat(t_philo *philo)
 	sem_wait(philo->data->sem_forks);
 	print_output(philo,"has taken a fork");
 	sem_wait(philo->data->sem_meal);
-	philo->last_meal_time = get_time_in_ms(philo->data);
-	sem_post(philo->data->sem_meal);
+    philo->last_meal_time = get_time_in_ms(philo->data);
+    sem_post(philo->data->sem_meal);
 	print_output(philo,"is eating");
 	philo->meals_eaten++;
 	usleep(philo->data->time_to_eat * 1000);

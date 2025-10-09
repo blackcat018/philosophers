@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:15:14 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 04:10:27 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/09 00:20:55 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void *monitoring(void *arg)
         last_meal = philo->last_meal_time;
         sem_post(philo->data->sem_meal);
         
-        if(current_time - last_meal >= philo->data->time_to_die)
+        if(current_time - last_meal > philo->data->time_to_die)  // Changed >= to >
         {
             sem_wait(philo->data->sem_print);
             printf("%ld %d died\n", current_time - philo->data->start_time, philo->id + 1);
@@ -55,18 +55,14 @@ void philo_routine(t_philo *philo)
 {
     pthread_t monitor_thread;
 
+	// usleep(1000);
     pthread_create(&monitor_thread, NULL, monitoring, philo);
-    pthread_detach(monitor_thread);
-    
-    // Small staggered start to avoid fork contention
+    pthread_detach(monitor_thread);    
     if (philo->id % 2 == 0)
         usleep(1000);
-    
     while(1)
     {
-        philo_eat(philo);
-        
-        // Check if philosopher reached meal count
+        philo_eat(philo);        
         if (philo->data->must_eat_count != -1 && 
             philo->meals_eaten >= philo->data->must_eat_count)
             exit(0);

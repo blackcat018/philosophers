@@ -49,11 +49,14 @@ typedef struct s_data
 
 int check_input(char **av);
 void *monitoring(void *arg);
+void smart_sleep(long duration_ms);
+long current_time_ms(void);
 
 		//--------- data initialization --------- //
 
 void init_philos(t_data *data);
 int					init_data(t_data *data, char **av);
+void precise_usleep(t_data *data,long microseconds);
 
 
 		//--------------- actions --------------- //

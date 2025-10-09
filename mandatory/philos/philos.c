@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:15:14 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 22:53:56 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/08 23:01:41 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,36 +113,3 @@ void wait_for_threads(t_philo *philo, t_data *data)
 		i++;
 	}
 }
-
-
-
-
-
-
-
-
-
-// 0 0 is sleeping
-// 0 2 is sleeping
-// 0 1 is thinking
-// 0 1 has taken a fork
-// 0 1 has taken a fork
-// 0 1 is eating
-// 200 0 is thinking
-// 200 0 has taken a fork
-// 200 2 is thinking
-// 200 1 is sleeping
-// 200 0 has taken a fork
-// 200 0 is eating
-// 200 2 has taken a fork
-// 311 1 died
-
-
-
-
-
-
-
-
-
-
