@@ -44,7 +44,7 @@ typedef struct s_data
 	sem_t			*sem_forks;  
 	sem_t			*sem_print;
 	sem_t			*sem_meal;
-	sem_t			*sem_stop;
+	sem_t			*sem_star;
 }					t_data;
 
 int check_input(char **av);

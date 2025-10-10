@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:15:14 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/09 00:20:55 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:28:58 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void *monitoring(void *arg)
         last_meal = philo->last_meal_time;
         sem_post(philo->data->sem_meal);
         
-        if(current_time - last_meal > philo->data->time_to_die)  // Changed >= to >
+        if(current_time - last_meal > philo->data->time_to_die)
         {
             sem_wait(philo->data->sem_print);
             printf("%ld %d died\n", current_time - philo->data->start_time, philo->id + 1);
@@ -53,9 +53,13 @@ void precise_usleep(t_data *data,long microseconds)
 
 void philo_routine(t_philo *philo)
 {
+    sem_wait(philo->data->sem_star);
     pthread_t monitor_thread;
 
-	// usleep(1000);
+    sem_wait(philo->data->sem_star);
+    philo->data->start_time = get_time_in_ms(philo->data);
+    philo->last_meal_time = philo->data->start_time;
+
     pthread_create(&monitor_thread, NULL, monitoring, philo);
     pthread_detach(monitor_thread);    
     if (philo->id % 2 == 0)

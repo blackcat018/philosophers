@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/09 00:24:50 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:28:42 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,16 @@ void philo_eat(t_philo *philo)
 }
 void cleanup(t_philo *philo)
 {
-	sem_close(philo->data->sem_print);
-	sem_close(philo->data->sem_forks);
-	sem_close(philo->data->sem_meal);
-	sem_unlink("/sem_print");
-	sem_unlink("/sem_forks");
-	sem_unlink("/sem_meal");
+    sem_close(philo->data->sem_print);
+    sem_close(philo->data->sem_forks);
+    sem_close(philo->data->sem_meal);
+    sem_close(philo->data->sem_star);
+    sem_unlink("/sem_print");
+    sem_unlink("/sem_forks");
+    sem_unlink("/sem_meal");
+    sem_unlink("/sem_start");
 }
+
 
 void forking(t_philo *philo)
 {
