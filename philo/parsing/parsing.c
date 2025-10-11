@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:59 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/09/25 17:11:00 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/11 07:09:27 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,3 @@ int check_input(char **av)
 	}
 	return(1);
 }
-
-// int main(int ac, char **av)
-// {
-// 	if(ac > 6)
-// 	{
-// 		printf("ERRO! too many args\n");
-// 		return(1);
-// 	}
-// 	if(check_if_number(av) == 1)
-// 		printf("you good bro\n");
-// 	else
-// 		printf("dufuq\n");
-// 	return(0);
-// }
