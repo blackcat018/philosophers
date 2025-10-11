@@ -6,11 +6,28 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/11 07:08:50 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:44:43 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+void philo_sleep(t_philo *philo, long time)
+{
+    long start = get_time_in_ms(philo->data);
+    if(print_output(philo, "is sleeping") == 1)
+        return;
+    while(get_time_in_ms(philo->data) - start < time)
+    {
+        pthread_mutex_lock(&philo->data->end_mutex);
+        if(philo->data->simulation_end)
+        {
+            pthread_mutex_unlock(&philo->data->end_mutex);
+            return;
+        }
+        pthread_mutex_unlock(&philo->data->end_mutex);
+    }
+}
 
 int take_fork_even(t_philo *philo)
 {
@@ -41,16 +58,16 @@ int take_fork_even(t_philo *philo)
 void one_philo_case(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->meal_mutex);
-philo->last_meal_time = get_time_in_ms(philo->data);
-pthread_mutex_unlock(&philo->data->meal_mutex);
-		if(pthread_mutex_lock(&philo->right_fork->mutex) != 0)
-		{
-			printf("error!\n");
-			return;
-		}
-		print_output(philo,"has taken fork");
-		while (!philo->data->simulation_end)
-    		usleep(1000);
-		pthread_mutex_unlock(&philo->right_fork->mutex);
-		return;
+    philo->last_meal_time = get_time_in_ms(philo->data);
+    pthread_mutex_unlock(&philo->data->meal_mutex);
+    if(pthread_mutex_lock(&philo->right_fork->mutex) != 0)
+    {
+        printf("error!\n");
+        return;
+    }
+    print_output(philo,"has taken fork");
+    while (!philo->data->simulation_end)
+        usleep(1000);
+    pthread_mutex_unlock(&philo->right_fork->mutex);
+    return;
 }

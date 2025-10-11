@@ -6,7 +6,7 @@
 /*   By: moel-idr <moel-idr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 17:10:53 by moel-idr          #+#    #+#             */
-/*   Updated: 2025/10/08 22:36:02 by moel-idr         ###   ########.fr       */
+/*   Updated: 2025/10/11 13:23:07 by moel-idr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,6 @@ void precise_sleep(long duration, t_data *data)
 	{
         if(data->simulation_end)
 			return;
-    }
-}
-void philo_sleep(t_philo *philo, long time)
-{
-    long start = get_time_in_ms(philo->data);
-    if(print_output(philo, "is sleeping") == 1)
-        return;
-    while(get_time_in_ms(philo->data) - start < time)
-    {
-        pthread_mutex_lock(&philo->data->end_mutex);
-        if(philo->data->simulation_end)
-        {
-            pthread_mutex_unlock(&philo->data->end_mutex);
-            return;
-        }
-        pthread_mutex_unlock(&philo->data->end_mutex);
     }
 }
 
